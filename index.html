@@ -3,38 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Math Practice Hub – Interactive Drills</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>Math Drill Central – Interactive Tools</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body { margin:0; font-family:'Inter',sans-serif; background:#0f0f11; color:#eee; }
-    #login { position:fixed; inset:0; background:#000; display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:9999; }
-    #games { display:none; padding:2rem; }
-    #search { width:90%; max-width:600px; padding:1rem; margin:1rem auto; display:block; background:#222; border:none; border-radius:8px; color:white; font-size:1.1rem; }
-    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1.5rem; }
-    .game { background:#1a1a2e; border-radius:12px; overflow:hidden; cursor:pointer; transition:0.2s; }
-    .game:hover { transform:scale(1.05); box-shadow:0 0 20px #00aaff; }
-    .game img { width:100%; height:140px; object-fit:cover; }
-    .game p { margin:10px 0; text-align:center; }
-    #back { position:fixed; top:15px; right:15px; padding:12px 24px; background:#c00; color:white; border:none; border-radius:8px; cursor:pointer; z-index:10000; display:none; }
-    #admin { position:fixed; bottom:20px; right:20px; width:50px; height:50px; background:#333; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:24px; cursor:pointer; z-index:999; }
-    iframe { position:fixed; inset:0; width:100%; height:100%; border:none; z-index:999; display:none; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Inter',sans-serif; background:#0a0a0f; color:#e0e0ff; min-height:100vh; }
+    #login { position:fixed; inset:0; background:linear-gradient(#000,#111); display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:9999; }
+    #login h1 { font-size:3rem; margin-bottom:1rem; color:#00aaff; }
+    #login input { padding:1rem; margin:0.8rem; width:340px; background:#1e1e2e; border:none; border-radius:10px; color:#fff; font-size:1.1rem; }
+    #login button { padding:1rem 3rem; background:#0066ff; color:white; border:none; border-radius:10px; cursor:pointer; font-size:1.2rem; font-weight:600; margin-top:1rem; transition:0.2s; }
+    #login button:hover { background:#3385ff; }
+    #error { color:#ff6666; margin-top:1rem; font-size:1.1rem; }
+    #games { display:none; padding:2rem; max-width:1600px; margin:auto; }
+    #search { width:100%; max-width:700px; padding:1.2rem; margin:0 auto 2rem; display:block; background:#1e1e2e; border:none; border-radius:12px; color:#fff; font-size:1.3rem; text-align:center; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:1.8rem; }
+    .game { background:#141422; border-radius:16px; overflow:hidden; cursor:pointer; transition:all 0.25s ease; box-shadow:0 4px 15px rgba(0,0,0,0.5); }
+    .game:hover { transform:translateY(-8px); box-shadow:0 12px 30px rgba(0,170,255,0.3); }
+    .game img { width:100%; height:160px; object-fit:cover; background:#000; }
+    .game p { padding:1rem; text-align:center; font-size:1.1rem; font-weight:500; }
+    #back { position:fixed; top:1.5rem; right:1.5rem; padding:1rem 2rem; background:#c00; color:white; border:none; border-radius:10px; cursor:pointer; z-index:10000; display:none; font-size:1.2rem; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.6); }
+    #admin { position:fixed; bottom:2rem; right:2rem; width:60px; height:60px; background:#222; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:2rem; z-index:999; box-shadow:0 6px 20px rgba(0,0,0,0.7); transition:0.3s; }
+    #admin:hover { background:#333; transform:scale(1.1); }
+    iframe { position:fixed; inset:0; width:100%; height:100%; border:none; z-index:999; display:none; background:#000; }
   </style>
 </head>
 <body>
 
 <div id="login">
-  <h1>Math Practice Hub</h1>
-  <p>Teacher & Student Access Only</p>
-  <input id="user" placeholder="Username" style="padding:12px; margin:8px; width:320px; background:#222; color:white; border:none; border-radius:8px;">
-  <input id="pass" type="password" placeholder="Password" style="padding:12px; margin:8px; width:320px; background:#222; color:white; border:none; border-radius:8px;">
-  <button onclick="checkLogin()" style="padding:12px 30px; background:#0066ff; color:white; border:none; border-radius:8px; cursor:pointer;">Login</button>
-  <p id="error" style="color:red; margin-top:10px;"></p>
+  <h1>Math Drill Central</h1>
+  <p>Authorized Access Only – Teacher/Student Portal</p>
+  <input id="user" placeholder="Username">
+  <input id="pass" type="password" placeholder="Password">
+  <button onclick="checkLogin()">Enter</button>
+  <p id="error"></p>
 </div>
 
 <div id="games">
-  <input type="text" id="search" placeholder="Search games..." onkeyup="filterGames()">
+  <input type="text" id="search" placeholder="Search drills..." onkeyup="filterGames()">
   <div class="grid" id="grid"></div>
-  <button id="back" onclick="closeGame()">Back to Hub</button>
+  <button id="back" onclick="closeGame()">Back to Drills</button>
   <div id="admin" onclick="showAdmin()">⚙️</div>
 </div>
 
@@ -42,19 +49,20 @@
 
 <script>
 function checkLogin() {
-  if (document.getElementById('user').value === 'elijiah' && document.getElementById('pass').value === 'elijiah2026') {
+  if (document.getElementById('user').value.trim().toLowerCase() === 'elijiah' && 
+      document.getElementById('pass').value === 'elijiah2026') {
     document.getElementById('login').style.display = 'none';
     document.getElementById('games').style.display = 'block';
-    loadAllGames();
+    loadGames();
   } else {
-    document.getElementById('error').textContent = 'Wrong credentials – contact your teacher.';
+    document.getElementById('error').textContent = 'Invalid credentials – ask your teacher.';
   }
 }
 
 function filterGames() {
   let term = document.getElementById('search').value.toLowerCase();
-  document.querySelectorAll('.game').forEach(g => {
-    g.style.display = g.textContent.toLowerCase().includes(term) ? '' : 'none';
+  document.querySelectorAll('.game').forEach(el => {
+    el.style.display = el.textContent.toLowerCase().includes(term) ? '' : 'none';
   });
 }
 
@@ -71,26 +79,42 @@ function closeGame() {
 }
 
 function showAdmin() {
-  const code = prompt('Enter admin code:');
-  if (code === 'elijiah2026') alert('Admin unlocked! To add games: upload new files on GitHub and commit.');
+  const code = prompt('Admin code:');
+  if (code === 'elijiah2026') {
+    alert('Admin mode: To add more games, upload new folders/files to GitHub repo → commit. Refresh site after.');
+  } else {
+    alert('Access denied.');
+  }
 }
 
-function loadAllGames() {
-  // CHANGE THESE PATHS IF YOUR GAMES ARE IN DIFFERENT FOLDERS
+function loadGames() {
+  // Paths assume your upload has 'html5/[game]/index.html' and 'thumbnails/[game].png' – change if different!
   const games = [
-    // Add as many as you want — here are examples from most packs
-    {name:'Slope', url:'html5/slope/index.html', thumb:'thumbnails/slope.png'},
-    {name:'Run 3', url:'html5/run3/index.html', thumb:'thumbnails/run3.png'},
-    {name:'Tunnel Rush', url:'html5/tunnel-rush/index.html', thumb:'thumbnails/tunnel-rush.png'},
-    // Keep adding more lines like this (copy names from your uploaded folders)
+    {name: '2048', url: 'html5/2048/index.html', thumb: 'thumbnails/2048.png'},
+    {name: 'Cookie Clicker', url: 'html5/cookieclicker/index.html', thumb: 'thumbnails/cookieclicker.png'},
+    {name: 'Geometry Dash', url: 'html5/geometrydash/index.html', thumb: 'thumbnails/geometrydash.png'},
+    {name: 'Run 3', url: 'html5/run3/index.html', thumb: 'thumbnails/run3.png'},
+    {name: 'Slope', url: 'html5/slope/index.html', thumb: 'thumbnails/slope.png'},
+    {name: 'Minecraft Classic', url: 'html5/minecraft/index.html', thumb: 'thumbnails/minecraft.png'},
+    {name: 'Pac-Man', url: 'html5/pacman/index.html', thumb: 'thumbnails/pacman.png'},
+    {name: 'Tetris', url: 'html5/tetris/index.html', thumb: 'thumbnails/tetris.png'},
+    {name: 'Flappy Bird', url: 'html5/flappybird/index.html', thumb: 'thumbnails/flappybird.png'},
+    {name: 'Snake', url: 'html5/snake/index.html', thumb: 'thumbnails/snake.png'},
+    {name: 'Asteroids', url: 'html5/asteroids/index.html', thumb: 'thumbnails/asteroids.png'},
+    {name: 'Chrome Dino', url: 'html5/chromedino/index.html', thumb: 'thumbnails/chromedino.png'},
+    {name: 'Hextris', url: 'html5/hextris/index.html', thumb: 'thumbnails/hextris.png'},
+    {name: 'Trimps', url: 'html5/trimps/index.html', thumb: 'thumbnails/trimps.png'},
+    {name: 'Space Company', url: 'html5/spacecompany/index.html', thumb: 'thumbnails/spacecompany.png'},
+    // Add more here! Look in your repo's html5/ or gfiles/html5/ folder for names, copy pattern
+    // Example: {name: 'YourGame', url: 'html5/yourgame/index.html', thumb: 'thumbnails/yourgame.png'},
   ];
-  
+
   const grid = document.getElementById('grid');
   grid.innerHTML = '';
   games.forEach(g => {
     let div = document.createElement('div');
     div.className = 'game';
-    div.innerHTML = `<img src="${g.thumb}" alt="${g.name}"><p>${g.name}</p>`;
+    div.innerHTML = `<img src="${g.thumb}" alt="${g.name}" onerror="this.src='https://via.placeholder.com/240x160?text=${g.name}';"><p>${g.name}</p>`;
     div.onclick = () => loadGame(g.url);
     grid.appendChild(div);
   });
